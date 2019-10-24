@@ -1,0 +1,509 @@
+<!doctype html>
+<html lang="en">
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="viewport" content="initial-scale=1,user-scalable=no,maximum-scale=1,width=device-width">
+        <meta name="mobile-web-app-capable" content="yes">
+        <meta name="apple-mobile-web-app-capable" content="yes">
+        <link rel="stylesheet" href="css/leaflet.css"><link rel="stylesheet" href="css/L.Control.Locate.min.css">
+        <link rel="stylesheet" href="css/qgis2web.css"><link rel="stylesheet" href="css/fontawesome-all.min.css">
+        <link rel="stylesheet" href="css/leaflet-control-geocoder.Geocoder.css">
+        <link rel="stylesheet" href="css/leaflet-measure.css">
+        <style>
+        html, body, #map {
+            width: 100%;
+            height: 100%;
+            padding: 0;
+            margin: 0;
+        }
+        </style>
+        <title></title>
+    </head>
+    <body>
+        <div id="map">
+        </div>
+        <script src="js/qgis2web_expressions.js"></script>
+        <script src="js/leaflet.js"></script><script src="js/L.Control.Locate.min.js"></script>
+        <script src="js/leaflet.rotatedMarker.js"></script>
+        <script src="js/leaflet.pattern.js"></script>
+        <script src="js/leaflet-hash.js"></script>
+        <script src="js/Autolinker.min.js"></script>
+        <script src="js/rbush.min.js"></script>
+        <script src="js/labelgun.min.js"></script>
+        <script src="js/labels.js"></script>
+        <script src="js/leaflet-control-geocoder.Geocoder.js"></script>
+        <script src="js/leaflet-measure.js"></script>
+        <script src="data/Province_1.js"></script>
+        <script src="data/HFRAlignment_2.js"></script>
+        <script src="data/ExistingTrack_3.js"></script>
+        <script>
+        var map = L.map('map', {
+            zoomControl:true, maxZoom:28, minZoom:1
+        }).fitBounds([[37.273151322587424,-87.50766952507269],[53.609109208433125,-65.66927361007873]]);
+        var hash = new L.Hash(map);
+        map.attributionControl.setPrefix('<a href="https://github.com/tomchadwin/qgis2web" target="_blank">qgis2web</a> &middot; <a href="http://leafletjs.com" title="A JS library for interactive maps">Leaflet</a>');
+        L.control.locate({locateOptions: {maxZoom: 19}}).addTo(map);
+        var measureControl = new L.Control.Measure({
+            position: 'topleft',
+            primaryLengthUnit: 'meters',
+            secondaryLengthUnit: 'kilometers',
+            primaryAreaUnit: 'sqmeters',
+            secondaryAreaUnit: 'hectares'
+        });
+        measureControl.addTo(map);
+        document.getElementsByClassName('leaflet-control-measure-toggle')[0]
+        .innerHTML = '';
+        document.getElementsByClassName('leaflet-control-measure-toggle')[0]
+        .className += ' fas fa-ruler';
+        var bounds_group = new L.featureGroup([]);
+        function setBounds() {
+            map.setMaxBounds(map.getBounds());
+        }
+        var layer_ESRISatelliteArcGISWorld_Imagery_0 = L.tileLayer('https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}', {
+            opacity: 1.0,
+            attribution: '',
+        });
+        layer_ESRISatelliteArcGISWorld_Imagery_0;
+        map.addLayer(layer_ESRISatelliteArcGISWorld_Imagery_0);
+        function pop_Province_1(feature, layer) {
+            var popupContent = '<table>\
+                    <tr>\
+                        <td colspan="2">' + (feature.properties['PRUID'] !== null ? Autolinker.link(String(feature.properties['PRUID'])) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2">' + (feature.properties['PRNAME'] !== null ? Autolinker.link(String(feature.properties['PRNAME'])) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2">' + (feature.properties['PRENAME'] !== null ? Autolinker.link(String(feature.properties['PRENAME'])) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2">' + (feature.properties['PRFNAME'] !== null ? Autolinker.link(String(feature.properties['PRFNAME'])) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2">' + (feature.properties['PREABBR'] !== null ? Autolinker.link(String(feature.properties['PREABBR'])) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2">' + (feature.properties['PRFABBR'] !== null ? Autolinker.link(String(feature.properties['PRFABBR'])) : '') + '</td>\
+                    </tr>\
+                </table>';
+            layer.bindPopup(popupContent, {maxHeight: 400});
+        }
+
+        function style_Province_1_0(feature) {
+            switch(String(feature.properties['PRENAME'])) {
+                case 'Ontario':
+                    return {
+                pane: 'pane_Province_1',
+                opacity: 1,
+                color: 'rgba(35,35,35,1.0)',
+                dashArray: '',
+                lineCap: 'butt',
+                lineJoin: 'miter',
+                weight: 1.0, 
+                fill: true,
+                fillOpacity: 0.2,
+                fillColor: 'rgba(31,120,180,1.0)',
+            }
+                    break;
+                case 'Quebec':
+                    return {
+                pane: 'pane_Province_1',
+                opacity: 1,
+                color: 'rgba(35,35,35,1.0)',
+                dashArray: '',
+                lineCap: 'butt',
+                lineJoin: 'miter',
+                weight: 1.0, 
+                fill: true,
+                fillOpacity: 0.2,
+                fillColor: 'rgba(227,26,28,1.0)',
+            }
+                    break;
+                default:
+                    return {
+                pane: 'pane_Province_1',
+                opacity: 1,
+                color: 'rgba(35,35,35,1.0)',
+                dashArray: '',
+                lineCap: 'butt',
+                lineJoin: 'miter',
+                weight: 1.0, 
+                fill: true,
+                fillOpacity: 1,
+                fillColor: 'rgba(63,60,60,1.0)',
+            }
+                    break;
+            }
+        }
+        map.createPane('pane_Province_1');
+        map.getPane('pane_Province_1').style.zIndex = 401;
+        map.getPane('pane_Province_1').style['mix-blend-mode'] = 'normal';
+        var layer_Province_1 = new L.geoJson(json_Province_1, {
+            attribution: '',
+            pane: 'pane_Province_1',
+            onEachFeature: pop_Province_1,
+            style: style_Province_1_0,
+        });
+        bounds_group.addLayer(layer_Province_1);
+        map.addLayer(layer_Province_1);
+        function pop_HFRAlignment_2(feature, layer) {
+            var popupContent = '<table>\
+                    <tr>\
+                        <td colspan="2">' + (feature.properties['NID'] !== null ? Autolinker.link(String(feature.properties['NID'])) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2">' + (feature.properties['Part'] !== null ? Autolinker.link(String(feature.properties['Part'])) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2">' + (feature.properties['layer'] !== null ? Autolinker.link(String(feature.properties['layer'])) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2">' + (feature.properties['path'] !== null ? Autolinker.link(String(feature.properties['path'])) : '') + '</td>\
+                    </tr>\
+                </table>';
+            layer.bindPopup(popupContent, {maxHeight: 400});
+        }
+
+        function style_HFRAlignment_2_0() {
+            return {
+                pane: 'pane_HFRAlignment_2',
+                opacity: 1,
+                color: 'rgba(219,30,42,1.0)',
+                dashArray: '',
+                lineCap: 'square',
+                lineJoin: 'bevel',
+                weight: 8.0,
+                fillOpacity: 0,
+            }
+        }
+        map.createPane('pane_HFRAlignment_2');
+        map.getPane('pane_HFRAlignment_2').style.zIndex = 402;
+        map.getPane('pane_HFRAlignment_2').style['mix-blend-mode'] = 'normal';
+        var layer_HFRAlignment_2 = new L.geoJson(json_HFRAlignment_2, {
+            attribution: '',
+            pane: 'pane_HFRAlignment_2',
+            onEachFeature: pop_HFRAlignment_2,
+            style: style_HFRAlignment_2_0,
+        });
+        bounds_group.addLayer(layer_HFRAlignment_2);
+        map.addLayer(layer_HFRAlignment_2);
+        function pop_ExistingTrack_3(feature, layer) {
+            var popupContent = '<table>\
+                    <tr>\
+                        <td colspan="2">' + (feature.properties['NID'] !== null ? Autolinker.link(String(feature.properties['NID'])) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2">' + (feature.properties['TRACKSEGID'] !== null ? Autolinker.link(String(feature.properties['TRACKSEGID'])) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2">' + (feature.properties['TRACKNAME'] !== null ? Autolinker.link(String(feature.properties['TRACKNAME'])) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2">' + (feature.properties['TRACKCLASS'] !== null ? Autolinker.link(String(feature.properties['TRACKCLASS'])) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2">' + (feature.properties['TRACKCLASC'] !== null ? Autolinker.link(String(feature.properties['TRACKCLASC'])) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2">' + (feature.properties['REGULATOR'] !== null ? Autolinker.link(String(feature.properties['REGULATOR'])) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2">' + (feature.properties['REGULATORC'] !== null ? Autolinker.link(String(feature.properties['REGULATORC'])) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2">' + (feature.properties['TRANSPTYPE'] !== null ? Autolinker.link(String(feature.properties['TRANSPTYPE'])) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2">' + (feature.properties['TRANSPTYPC'] !== null ? Autolinker.link(String(feature.properties['TRANSPTYPC'])) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2">' + (feature.properties['USETYPE'] !== null ? Autolinker.link(String(feature.properties['USETYPE'])) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2">' + (feature.properties['USETYPEC'] !== null ? Autolinker.link(String(feature.properties['USETYPEC'])) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2">' + (feature.properties['GAUGE'] !== null ? Autolinker.link(String(feature.properties['GAUGE'])) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2">' + (feature.properties['GAUGEC'] !== null ? Autolinker.link(String(feature.properties['GAUGEC'])) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2">' + (feature.properties['NUMTRACKS'] !== null ? Autolinker.link(String(feature.properties['NUMTRACKS'])) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2">' + (feature.properties['ELECTRIC'] !== null ? Autolinker.link(String(feature.properties['ELECTRIC'])) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2">' + (feature.properties['ELECTRICC'] !== null ? Autolinker.link(String(feature.properties['ELECTRICC'])) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2">' + (feature.properties['STATUS'] !== null ? Autolinker.link(String(feature.properties['STATUS'])) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2">' + (feature.properties['STATUSC'] !== null ? Autolinker.link(String(feature.properties['STATUSC'])) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2">' + (feature.properties['SPEEDFREIT'] !== null ? Autolinker.link(String(feature.properties['SPEEDFREIT'])) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2">' + (feature.properties['SPEEDPASSE'] !== null ? Autolinker.link(String(feature.properties['SPEEDPASSE'])) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2">' + (feature.properties['UNITOFSPEE'] !== null ? Autolinker.link(String(feature.properties['UNITOFSPEE'])) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2">' + (feature.properties['UNITOFSPEC'] !== null ? Autolinker.link(String(feature.properties['UNITOFSPEC'])) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2">' + (feature.properties['SOURCEID'] !== null ? Autolinker.link(String(feature.properties['SOURCEID'])) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2">' + (feature.properties['OPERATOENA'] !== null ? Autolinker.link(String(feature.properties['OPERATOENA'])) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2">' + (feature.properties['OPERATORMK'] !== null ? Autolinker.link(String(feature.properties['OPERATORMK'])) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2">' + (feature.properties['OPSUBSTART'] !== null ? Autolinker.link(String(feature.properties['OPSUBSTART'])) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2">' + (feature.properties['OPSUBEND'] !== null ? Autolinker.link(String(feature.properties['OPSUBEND'])) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2">' + (feature.properties['OPSUBUDIS'] !== null ? Autolinker.link(String(feature.properties['OPSUBUDIS'])) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2">' + (feature.properties['OPSUBUDISC'] !== null ? Autolinker.link(String(feature.properties['OPSUBUDISC'])) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2">' + (feature.properties['OWNERENA'] !== null ? Autolinker.link(String(feature.properties['OWNERENA'])) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2">' + (feature.properties['TRKUSR1ENA'] !== null ? Autolinker.link(String(feature.properties['TRKUSR1ENA'])) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2">' + (feature.properties['TRKUSR1RMK'] !== null ? Autolinker.link(String(feature.properties['TRKUSR1RMK'])) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2">' + (feature.properties['TRKUSR2ENA'] !== null ? Autolinker.link(String(feature.properties['TRKUSR2ENA'])) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2">' + (feature.properties['TRKUSR2RMK'] !== null ? Autolinker.link(String(feature.properties['TRKUSR2RMK'])) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2">' + (feature.properties['TRKUSR3ENA'] !== null ? Autolinker.link(String(feature.properties['TRKUSR3ENA'])) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2">' + (feature.properties['TRKUSR3RMK'] !== null ? Autolinker.link(String(feature.properties['TRKUSR3RMK'])) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2">' + (feature.properties['TRKUSR4ENA'] !== null ? Autolinker.link(String(feature.properties['TRKUSR4ENA'])) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2">' + (feature.properties['TRKUSR4RMK'] !== null ? Autolinker.link(String(feature.properties['TRKUSR4RMK'])) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2">' + (feature.properties['SUBDI1NID'] !== null ? Autolinker.link(String(feature.properties['SUBDI1NID'])) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2">' + (feature.properties['SUBDI1NAME'] !== null ? Autolinker.link(String(feature.properties['SUBDI1NAME'])) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2">' + (feature.properties['SUBD1START'] !== null ? Autolinker.link(String(feature.properties['SUBD1START'])) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2">' + (feature.properties['SUBD1END'] !== null ? Autolinker.link(String(feature.properties['SUBD1END'])) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2">' + (feature.properties['SUB1UNITDI'] !== null ? Autolinker.link(String(feature.properties['SUB1UNITDI'])) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2">' + (feature.properties['SUB1UNITDC'] !== null ? Autolinker.link(String(feature.properties['SUB1UNITDC'])) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2">' + (feature.properties['SUBDI2NID'] !== null ? Autolinker.link(String(feature.properties['SUBDI2NID'])) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2">' + (feature.properties['SUBDI2NAME'] !== null ? Autolinker.link(String(feature.properties['SUBDI2NAME'])) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2">' + (feature.properties['SUBD2START'] !== null ? Autolinker.link(String(feature.properties['SUBD2START'])) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2">' + (feature.properties['SUBD2END'] !== null ? Autolinker.link(String(feature.properties['SUBD2END'])) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2">' + (feature.properties['SUB2UNITDI'] !== null ? Autolinker.link(String(feature.properties['SUB2UNITDI'])) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2">' + (feature.properties['SUB2UNITDC'] !== null ? Autolinker.link(String(feature.properties['SUB2UNITDC'])) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2">' + (feature.properties['ADMINAREA'] !== null ? Autolinker.link(String(feature.properties['ADMINAREA'])) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2">' + (feature.properties['ADMINAREAC'] !== null ? Autolinker.link(String(feature.properties['ADMINAREAC'])) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2">' + (feature.properties['SPECVERS'] !== null ? Autolinker.link(String(feature.properties['SPECVERS'])) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2">' + (feature.properties['SECURCLASS'] !== null ? Autolinker.link(String(feature.properties['SECURCLASS'])) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2">' + (feature.properties['SECURCLASC'] !== null ? Autolinker.link(String(feature.properties['SECURCLASC'])) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2">' + (feature.properties['GEOCREDATE'] !== null ? Autolinker.link(String(feature.properties['GEOCREDATE'])) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2">' + (feature.properties['GEOREVDATE'] !== null ? Autolinker.link(String(feature.properties['GEOREVDATE'])) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2">' + (feature.properties['GEOACQTECH'] !== null ? Autolinker.link(String(feature.properties['GEOACQTECH'])) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2">' + (feature.properties['GEOACQTECC'] !== null ? Autolinker.link(String(feature.properties['GEOACQTECC'])) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2">' + (feature.properties['GEOACCURA'] !== null ? Autolinker.link(String(feature.properties['GEOACCURA'])) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2">' + (feature.properties['GEOPROVIDE'] !== null ? Autolinker.link(String(feature.properties['GEOPROVIDE'])) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2">' + (feature.properties['GEOPROVIDC'] !== null ? Autolinker.link(String(feature.properties['GEOPROVIDC'])) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2">' + (feature.properties['ATTCREDATE'] !== null ? Autolinker.link(String(feature.properties['ATTCREDATE'])) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2">' + (feature.properties['ATTREVDATE'] !== null ? Autolinker.link(String(feature.properties['ATTREVDATE'])) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2">' + (feature.properties['ATTACQTECH'] !== null ? Autolinker.link(String(feature.properties['ATTACQTECH'])) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2">' + (feature.properties['ATTACQTECC'] !== null ? Autolinker.link(String(feature.properties['ATTACQTECC'])) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2">' + (feature.properties['ATTPROVIDE'] !== null ? Autolinker.link(String(feature.properties['ATTPROVIDE'])) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2">' + (feature.properties['ATTPROVIDC'] !== null ? Autolinker.link(String(feature.properties['ATTPROVIDC'])) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2">' + (feature.properties['layer'] !== null ? Autolinker.link(String(feature.properties['layer'])) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2">' + (feature.properties['path'] !== null ? Autolinker.link(String(feature.properties['path'])) : '') + '</td>\
+                    </tr>\
+                </table>';
+            layer.bindPopup(popupContent, {maxHeight: 400});
+        }
+
+        function style_ExistingTrack_3_0(feature) {
+            switch(String(feature.properties['OWNERENA'])) {
+                case 'Agence métropolitaine de transport':
+                    return {
+                pane: 'pane_ExistingTrack_3',
+                opacity: 1,
+                color: 'rgba(183,72,75,1.0)',
+                dashArray: '',
+                lineCap: 'square',
+                lineJoin: 'bevel',
+                weight: 1.0,
+                fillOpacity: 0,
+            }
+                    break;
+                case 'Canadian National':
+                    return {
+                pane: 'pane_ExistingTrack_3',
+                opacity: 1,
+                color: 'rgba(51,160,44,1.0)',
+                dashArray: '',
+                lineCap: 'square',
+                lineJoin: 'bevel',
+                weight: 1.0,
+                fillOpacity: 0,
+            }
+                    break;
+                case 'Canadian Pacific':
+                    return {
+                pane: 'pane_ExistingTrack_3',
+                opacity: 1,
+                color: 'rgba(31,120,180,1.0)',
+                dashArray: '',
+                lineCap: 'square',
+                lineJoin: 'bevel',
+                weight: 1.0,
+                fillOpacity: 0,
+            }
+                    break;
+                case 'Genesee & Wyoming Canada Inc.':
+                    return {
+                pane: 'pane_ExistingTrack_3',
+                opacity: 1,
+                color: 'rgba(63,60,60,1.0)',
+                dashArray: '',
+                lineCap: 'square',
+                lineJoin: 'bevel',
+                weight: 1.0,
+                fillOpacity: 0,
+            }
+                    break;
+                case 'Via Rail Canada Inc.':
+                    return {
+                pane: 'pane_ExistingTrack_3',
+                opacity: 1,
+                color: 'rgba(255,255,1,1.0)',
+                dashArray: '',
+                lineCap: 'square',
+                lineJoin: 'bevel',
+                weight: 1.0,
+                fillOpacity: 0,
+            }
+                    break;
+                default:
+                    return {
+                pane: 'pane_ExistingTrack_3',
+                opacity: 1,
+                color: 'rgba(255,255,255,1.0)',
+                dashArray: '',
+                lineCap: 'square',
+                lineJoin: 'bevel',
+                weight: 1.0,
+                fillOpacity: 0,
+            }
+                    break;
+            }
+        }
+        map.createPane('pane_ExistingTrack_3');
+        map.getPane('pane_ExistingTrack_3').style.zIndex = 403;
+        map.getPane('pane_ExistingTrack_3').style['mix-blend-mode'] = 'normal';
+        var layer_ExistingTrack_3 = new L.geoJson(json_ExistingTrack_3, {
+            attribution: '',
+            pane: 'pane_ExistingTrack_3',
+            onEachFeature: pop_ExistingTrack_3,
+            style: style_ExistingTrack_3_0,
+        });
+        bounds_group.addLayer(layer_ExistingTrack_3);
+        map.addLayer(layer_ExistingTrack_3);
+        var osmGeocoder = new L.Control.Geocoder({
+            collapsed: true,
+            position: 'topleft',
+            text: 'Search',
+            title: 'Testing'
+        }).addTo(map);
+        document.getElementsByClassName('leaflet-control-geocoder-icon')[0]
+        .className += ' fa fa-search';
+        document.getElementsByClassName('leaflet-control-geocoder-icon')[0]
+        .title += 'Search for a place';
+        var baseMaps = {};
+        L.control.layers(baseMaps,{'Existing Track<br /><table><tr><td style="text-align: center;"><img src="legend/ExistingTrack_3_Agencemétropolitainedetransport0.png" /></td><td>Agence métropolitaine de transport</td></tr><tr><td style="text-align: center;"><img src="legend/ExistingTrack_3_CanadianNational1.png" /></td><td>Canadian National</td></tr><tr><td style="text-align: center;"><img src="legend/ExistingTrack_3_CanadianPacific2.png" /></td><td>Canadian Pacific</td></tr><tr><td style="text-align: center;"><img src="legend/ExistingTrack_3_GeneseeWyomingCanadaInc3.png" /></td><td>Genesee & Wyoming Canada Inc.</td></tr><tr><td style="text-align: center;"><img src="legend/ExistingTrack_3_ViaRailCanadaInc4.png" /></td><td>Via Rail Canada Inc.</td></tr><tr><td style="text-align: center;"><img src="legend/ExistingTrack_3_Other5.png" /></td><td>Other</td></tr></table>': layer_ExistingTrack_3,'<img src="legend/HFRAlignment_2.png" /> HFR Alignment': layer_HFRAlignment_2,'Province<br /><table><tr><td style="text-align: center;"><img src="legend/Province_1_Ontario0.png" /></td><td>Ontario</td></tr><tr><td style="text-align: center;"><img src="legend/Province_1_Quebec1.png" /></td><td>Quebec</td></tr><tr><td style="text-align: center;"><img src="legend/Province_1_2.png" /></td><td></td></tr></table>': layer_Province_1,"ESRI Satellite (ArcGIS/World_Imagery)": layer_ESRISatelliteArcGISWorld_Imagery_0,}).addTo(map);
+        setBounds();
+        </script>
+    </body>
+</html>
